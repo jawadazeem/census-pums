@@ -7,7 +7,4 @@ __pycache__/
 data/raw/psam_p53.csv
 data/raw/psam_p53.csv.zip
 
-# Frontend local files
-frontend/.env
-frontend/.dash-assets/
 
