@@ -1,0 +1,12 @@
+.venv/
+.deps/
+__pycache__/
+*.pyc
+
+# Extracted source is reproducible from the tracked ZIP archive
+data/raw/psam_p53.csv
+
+# Frontend local files
+frontend/.env
+frontend/.dash-assets/
+
