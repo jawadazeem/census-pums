@@ -12,7 +12,7 @@ from .pipeline import run_milestone_1
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run Milestone 1 for the Washington ACS project."
+        description="Run Milestone 1 or Milestones 1-2 for the Washington ACS project."
     )
     parser.add_argument(
         "--input",
@@ -23,8 +23,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument(
         "--through",
-        choices=["milestone1"],
-        default="milestone1",
+        choices=["milestone1", "milestone2"],
+        default="milestone2",
         help="Last milestone to run",
     )
     parser.add_argument("--random-state", type=int, default=3654)
@@ -39,6 +39,14 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(validate_input_file(args.input), indent=2))
             return 0
         manifest = run_milestone_1(args.input, args.output, args.random_state)
+        if args.through == "milestone2":
+            from .milestone2 import run_milestone_2
+
+            manifest = run_milestone_2(
+                args.output,
+                str(manifest["input"]),
+                args.random_state,
+            )
     except (DataValidationError, RuntimeError) as error:
         print(f"ERROR: {error}", file=sys.stderr)
         return 2
