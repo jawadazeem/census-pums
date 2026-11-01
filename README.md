@@ -23,10 +23,10 @@ bash scripts/setup.sh
 ## Run
 
 ```bash
-python -m frontend.app
+conda run -n washington-workforce python -m frontend.app
 ```
 
-Open port 8050 in Codespaces.
+Open http://127.0.0.1:8050.
 
-The original ACS CSV is stored as `data/raw/psam_p53.csv.zip` because the uncompressed file exceeds GitHub's 100 MB limit. The setup script extracts it and verifies its SHA-256 hash.
+The original ACS CSV is stored as three archive parts under `data/raw/`. The setup script joins them, verifies the archive, and extracts the original CSV.
 
