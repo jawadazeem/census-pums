@@ -7,14 +7,21 @@ from backend.data import (
     load_source,
     validate_input_file,
 )
-from backend.statistics import covariance_and_correlation, hypothesis_tests
+from backend.statistics import (
+    calculate_vif,
+    covariance_and_correlation,
+    flag_outliers,
+    hypothesis_tests,
+    run_pca_svd,
+    run_regularized_regression,
+)
 
 
 def main() -> None:
     print("Washington Workforce Backend", flush=True)
     print("----------------------------", flush=True)
 
-    print("[1/5] Validating the original ACS person file...", flush=True)
+    print("[1/8] Validating the original ACS person file...", flush=True)
     metadata = validate_input_file(DEFAULT_INPUT)
     print(
         f"      Found {metadata['raw_rows']:,} Washington person records "
@@ -22,7 +29,7 @@ def main() -> None:
         flush=True,
     )
 
-    print("[2/5] Loading and cleaning the DataFrame...", flush=True)
+    print("[2/8] Loading and cleaning the DataFrame...", flush=True)
     workers, audit = clean_person_data(load_source(metadata))
     print(
         f"      Retained {len(workers):,} employed respondents age 16+.",
@@ -60,7 +67,7 @@ def main() -> None:
         flush=True,
     )
 
-    print("[3/5] Calculating descriptive statistics...", flush=True)
+    print("[3/8] Calculating descriptive statistics...", flush=True)
     numeric, _ = descriptive_tables(workers)
     wage = numeric.set_index("variable").loc["WAGP"]
     print(f"      Weighted median wage: ${wage['weighted_median']:,.2f}", flush=True)
@@ -79,7 +86,7 @@ def main() -> None:
     )
     print(education_counts.to_string(index=False), flush=True)
 
-    print("[4/5] Running statistical checks...", flush=True)
+    print("[4/8] Running statistical checks...", flush=True)
     _, correlation = covariance_and_correlation(workers)
     tests = hypothesis_tests(workers)
     t_test = tests.loc[tests["test"] == "Welch two-sample t-test"].iloc[0]
@@ -96,10 +103,40 @@ def main() -> None:
         flush=True,
     )
 
-    print("[5/5] Backend is ready for Dash callbacks.", flush=True)
+    print("[5/8] Flagging outliers...", flush=True)
+    outliers = flag_outliers(workers)
+    print(outliers["rules"].to_string(index=False), flush=True)
+    model_data = outliers["sensitivity"]
+    print(
+        f"      Wage sensitivity dataset: {len(model_data):,} rows.",
+        flush=True,
+    )
+
+    print("[6/8] Comparing regularized regression models...", flush=True)
+    regression = run_regularized_regression(
+        model_data,
+        sample_size=20_000,
+        remove_wage_outliers=False,
+    )
+    print(regression["metrics"].to_string(index=False), flush=True)
+    print("\nNumerical VIF:", flush=True)
+    print(calculate_vif(model_data).to_string(index=False), flush=True)
+
+    print("[7/8] Running PCA and SVD...", flush=True)
+    pca_svd = run_pca_svd(
+        model_data,
+        sample_size=50_000,
+        remove_wage_outliers=False,
+    )
+    print(pca_svd["components"].to_string(index=False), flush=True)
+    print("\nPCA/SVD summary:", flush=True)
+    print(pca_svd["summary"].to_string(index=False), flush=True)
+
+    print("[8/8] Backend is ready for Dash callbacks.", flush=True)
     print(
         "      Frontend code can import load_dashboard_data(), "
-        "filter_workers(), and the functions in backend.statistics.",
+        "filter_workers(), regression_analysis(), pca_svd_analysis(), "
+        "and the functions in backend.statistics.",
         flush=True,
     )
 

@@ -1,32 +1,35 @@
 # Census Washington Workforce
 
-The backend loads and cleans the ACS person data once. The Dash frontend imports these functions directly inside callbacks.
+This backend cleans the Washington ACS person file and provides functions the Dash callbacks can call directly.
 
-```text
-backend/
-  data.py
-  statistics.py
-  services.py
-```
+## setup
 
-## Setup
-
-Activate the Conda environment you already use, then install the backend packages:
+Use your existing Conda environment:
 
 ```bash
 conda activate YOUR_ENVIRONMENT
-conda install -c conda-forge pandas numpy scipy
+conda install -c conda-forge pandas numpy scipy scikit-learn
 python scripts/extract_data.py
 ```
 
-For a short demonstration, run:
+## run the demo
 
 ```bash
 python -m backend
 ```
 
-This prints each processing step, five cleaned rows, numerical summaries, education counts, and a few statistical results. It does not start a server or create frontend files.
+The demo prints cleaned rows, summary statistics, outlier rules, regression results, VIF, and PCA/SVD results.
 
-`backend.statistics` contains covariance, correlation, distance, normality, t-test, and F-test functions for callbacks or report work.
+## use from Dash
 
-The dataset is stored as three archive parts under `data/raw/`. `extract_data.py` joins them, verifies the archive, and restores the original CSV.
+```python
+from backend.services import load_dashboard_data, filter_workers
+from backend.services import regression_analysis, pca_svd_analysis
+
+workers = load_dashboard_data()
+filtered = filter_workers(workers, age_range=[25, 55])
+regression = regression_analysis(filtered)
+pca = pca_svd_analysis(filtered)
+```
+
+`backend.statistics` also contains the lower-level analysis functions.

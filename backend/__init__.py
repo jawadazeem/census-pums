@@ -1,2 +1,2 @@
-"""Data and analysis functions used by the Dash application."""
+"""data and analysis functions used by the dash app"""
 

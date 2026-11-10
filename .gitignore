@@ -3,7 +3,7 @@
 __pycache__/
 *.pyc
 
-# Extracted source is reproducible from the tracked ZIP archive
+# generated data files
 data/raw/psam_p53.csv
 data/raw/psam_p53.csv.zip
 

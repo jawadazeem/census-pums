@@ -71,7 +71,7 @@ CATEGORY_LABELS = {
 
 
 class DataValidationError(ValueError):
-    """The supplied file does not match the project's data contract."""
+    """the file is not the person data we need"""
 
 
 def resolve_input_path(input_path: Path) -> Path:
