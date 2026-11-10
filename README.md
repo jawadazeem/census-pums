@@ -18,7 +18,7 @@ python scripts/extract_data.py
 python -m backend
 ```
 
-The demo prints cleaned rows, summary statistics, outlier rules, regression results, VIF, and PCA/SVD results.
+The demo prints cleaned rows, summary statistics, outlier rules, regression results, VIF, and PCA/SVD results. Advanced calculations are marked as work in progress, with placeholders for conclusions that still need review.
 
 ## use from Dash
 

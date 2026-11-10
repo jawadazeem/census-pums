@@ -18,8 +18,13 @@ from backend.statistics import (
 
 
 def main() -> None:
-    print("Washington Workforce Backend", flush=True)
-    print("----------------------------", flush=True)
+    print("Washington Workforce Backend - Advanced Analysis WIP", flush=True)
+    print("----------------------------------------------------", flush=True)
+    print(
+        "Regression, VIF, outlier, and PCA/SVD calculations are implemented, "
+        "but their interpretation is still under review.\n",
+        flush=True,
+    )
 
     print("[1/8] Validating the original ACS person file...", flush=True)
     metadata = validate_input_file(DEFAULT_INPUT)
@@ -111,6 +116,11 @@ def main() -> None:
         f"      Wage sensitivity dataset: {len(model_data):,} rows.",
         flush=True,
     )
+    print(
+        "      [WIP] Final outlier policy: TODO after comparing full and "
+        "wage-sensitivity model results.",
+        flush=True,
+    )
 
     print("[6/8] Comparing regularized regression models...", flush=True)
     regression = run_regularized_regression(
@@ -119,8 +129,19 @@ def main() -> None:
         remove_wage_outliers=False,
     )
     print(regression["metrics"].to_string(index=False), flush=True)
+    print(
+        "      [WIP] Preferred regression model: TODO after metric and "
+        "coefficient review.",
+        flush=True,
+    )
     print("\nNumerical VIF:", flush=True)
-    print(calculate_vif(model_data).to_string(index=False), flush=True)
+    vif = calculate_vif(model_data)
+    print(vif.to_string(index=False), flush=True)
+    print(
+        "      [WIP] Multicollinearity conclusion: TODO after confirming "
+        "the agreed VIF threshold.",
+        flush=True,
+    )
 
     print("[7/8] Running PCA and SVD...", flush=True)
     pca_svd = run_pca_svd(
@@ -131,12 +152,22 @@ def main() -> None:
     print(pca_svd["components"].to_string(index=False), flush=True)
     print("\nPCA/SVD summary:", flush=True)
     print(pca_svd["summary"].to_string(index=False), flush=True)
+    print(
+        "      [WIP] Components to retain: TODO after reviewing cumulative "
+        "explained variance and the scree plot.",
+        flush=True,
+    )
 
-    print("[8/8] Backend is ready for Dash callbacks.", flush=True)
+    print("[8/8] Backend functions are available for integration.", flush=True)
     print(
         "      Frontend code can import load_dashboard_data(), "
         "filter_workers(), regression_analysis(), pca_svd_analysis(), "
         "and the functions in backend.statistics.",
+        flush=True,
+    )
+    print(
+        "      Advanced-analysis findings remain provisional until the "
+        "placeholders above are resolved.",
         flush=True,
     )
 
