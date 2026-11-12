@@ -7,12 +7,11 @@ The modeling code follows the supplied CS/STAT 3654 lectures.
 | Pearson and Spearman correlation | Statistics and correlation lectures |
 | Q-Q and normality checks | Statistics and project requirements |
 | IQR outlier flags | Statistics and correlation assumptions |
-| OLS, train/test split, MSE, R-squared, overall F-test | Lecture 11 |
-| Ridge, lasso, elastic net, five-fold cross-validation | Lecture 11 |
-| VIF and condition number | Linear algebra refresher and Lecture 11 |
+| Simple linear regression, residual error, MSE, R-squared, coefficient t-test | Covered portion of Lecture 11 |
+| Condition number | Linear algebra refresher |
 | Standardization, PCA, SVD, explained variance, loadings | Lecture 10 and linear algebra refresher |
 
-Classification and clustering are intentionally outside this branch.
+Multiple regression, regularization, VIF, classification, and clustering are intentionally outside this branch.
 
 Survey weights are used for population descriptions. The regression and PCA steps analyze the PUMS sample rows, matching the modeling examples in the lectures.
 

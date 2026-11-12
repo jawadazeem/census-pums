@@ -6,7 +6,7 @@ from pathlib import Path
 import pandas as pd
 
 from .data import DEFAULT_INPUT, load_workers
-from .modeling import calculate_vif, flag_outliers, run_pca_svd, run_regression
+from .modeling import flag_outliers, run_pca_svd, simple_wage_regression
 
 
 @lru_cache(maxsize=2)
@@ -28,11 +28,7 @@ def outlier_analysis(data: pd.DataFrame):
 
 
 def regression_analysis(data: pd.DataFrame):
-    return run_regression(data)
-
-
-def vif_table(data: pd.DataFrame):
-    return calculate_vif(data)
+    return simple_wage_regression(data)
 
 
 def pca_svd_analysis(data: pd.DataFrame):

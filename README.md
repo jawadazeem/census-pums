@@ -9,7 +9,7 @@ This backend loads the Washington ACS person file, cleans the worker population,
 
 Use --skip-modeling for a quick cleaning and outlier demonstration.
 
-The full command prints regression, the overall F-test, the wage-outlier sensitivity comparison, VIF, and PCA/SVD results. It also saves:
+The full command prints simple wage-versus-hours regression, the wage-outlier sensitivity comparison, and PCA/SVD results. It also saves:
 
 - figures/wage_qq.png
 - figures/pca_variance.png

@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 
 from .data import DEFAULT_INPUT, load_workers, weighted_mean, weighted_median
-from .modeling import calculate_vif, compare_outlier_sensitivity, flag_outliers, run_pca_svd, run_regression
+from .modeling import compare_outlier_sensitivity, flag_outliers, run_pca_svd, simple_wage_regression
 from .plots import save_pca_variance_plot, save_wage_qq_plot
 
 
@@ -30,16 +30,12 @@ def main() -> None:
         print(f"\nSaved Q-Q plot to {args.plots_dir / 'wage_qq.png'}")
         return
 
-    print("\nRunning OLS, ridge, lasso, and elastic net...")
-    regression = run_regression(workers)
+    print("\nRunning simple linear regression: wage versus weekly hours...")
+    regression = simple_wage_regression(workers)
+    print(regression["coefficients"].to_string(index=False))
     print(regression["metrics"].to_string(index=False))
-    print("\nOverall regression F-test")
-    print(regression["overall_f_test"].to_string(index=False))
     print("\nWage-outlier sensitivity")
     print(compare_outlier_sensitivity(workers).to_string(index=False))
-    print("\nNumerical VIF")
-    print(calculate_vif(workers).to_string(index=False))
-
     print("\nRunning PCA/SVD...")
     pca = run_pca_svd(workers)
     print(pca["components"].to_string(index=False))
